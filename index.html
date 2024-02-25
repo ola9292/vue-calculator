@@ -1,0 +1,157 @@
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <title>Vue Calculator</title>
+        <style>
+                body{
+                   background-color: #215485; 
+                   font-family: sans-serif;    
+                }
+                .parent-cont{
+                        max-width: 300px;
+                        margin: 60px auto;
+                  
+                }
+                .heading{
+                        color:whitesmoke;
+                        text-align: center;
+                }
+              .calc-container{
+                background-color: #12304B;
+                max-width: 250px;
+                display: flex;
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+              }
+              .trench{
+                display: grid;
+                gap:10px;
+                grid-template-columns: repeat(4, 1fr);
+              }
+              .trench-2{
+                display: grid;
+                gap:10px;
+                grid-template-columns: repeat(2, 1fr);
+              }
+              button{
+                background-color: white;
+                border: none;
+                padding: 6px 0;
+              }
+              .light{
+                background-color: #215B91;
+                color: white;
+              }
+              .red{
+                background-color: red;
+                color: white;
+              }
+       
+              input{
+                padding: 10px 0;
+                width: 270px;
+                margin-bottom: 15px;
+                background-color: #12304B;
+                color: whitesmoke;
+                padding-right: 5px;
+                direction: rtl;
+              }
+        </style>
+</head>
+<body>
+        <div id="app" >
+                <div class="parent-cont">
+                        
+                        <div class="heading">
+                                <h2>{{ message }}</h2>
+                        </div>
+                
+                        <div class="input-container">
+                                <input type="text" v-model="entry">
+                        </div>
+                        <div class="calc-container">
+                              
+                                <div class="trench">
+                                        <button @click="appendNumber('7')">7</button>
+                                        <button @click="appendNumber('8')">8</button>
+                                        <button @click="appendNumber('9')">9</button>
+                                        <button @click="handleDelete" class="light">DEL</button>
+                                </div>
+                               <div  class="trench">    
+                                        <button @click="appendNumber('4')">4</button>
+                                        <button @click="appendNumber('5')">5</button>
+                                        <button @click="appendNumber('6')">6</button>
+                                        <button @click="appendOperator('+')">+</button>
+                               </div>
+                               <div  class="trench">
+                                        <button @click="appendNumber('1')">1</button>
+                                        <button @click="appendNumber('2')">2</button>
+                                        <button @click="appendNumber('3')">3</button>
+                                        <button @click="appendOperator('-')">-</button>
+                               </div>
+                               <div  class="trench">
+                                        <button @click="appendNumber('.')">.</button>
+                                        <button @click="appendNumber('0')">0</button>
+                                        <button @click="appendOperator('/')">/</button>
+                                        <button @click="appendOperator('*')">*</button>
+                               </div>
+                               <div  class="trench-2">
+                                        <button @click="reset" class="light">RESET</button>
+                                        <button @click="calculateAnswer" class="red">CALC</button>
+                                       
+                               </div>
+                               
+                        </div>  
+                </div>
+       
+                
+        </div>
+
+<script>
+  const { createApp } = Vue
+
+  createApp({
+   data(){
+        return{
+                message:'Vue Calculator',
+                entry:0,
+                result:''
+        }
+   },
+   methods:{
+        appendNumber(number){
+                if(this.entry == 0){
+                        this.entry = '';
+                        this.entry += number;
+                }else{
+                        this.entry += number;
+                }
+                
+        },
+        appendOperator(operator){
+                this.entry += operator
+        },
+        calculateAnswer(){
+                
+             this.entry = eval(this.entry);
+             if(this.entry.toString().length > 8){
+                this.entry = this.entry.toString().slice(0,8)
+             }
+             
+           
+        },
+        reset(){
+                this.entry = 0;
+        },
+        handleDelete(){
+              this.entry = this.entry.toString().slice(0, -1)
+        }
+
+   }
+  }).mount('#app')
+</script>
+</body>
+</html>
